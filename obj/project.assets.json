@@ -12539,11 +12539,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/rrozas/Documentos/dotnetcoremvc/dotnetcoremvc.csproj",
+      "projectUniqueName": "/home/rrozas/Documentos/dotnetcoremvcgit/dotnetcoremvc.csproj",
       "projectName": "dotnetcoremvc",
-      "projectPath": "/home/rrozas/Documentos/dotnetcoremvc/dotnetcoremvc.csproj",
+      "projectPath": "/home/rrozas/Documentos/dotnetcoremvcgit/dotnetcoremvc.csproj",
       "packagesPath": "/home/rrozas/.nuget/packages/",
-      "outputPath": "/home/rrozas/Documentos/dotnetcoremvc/obj/",
+      "outputPath": "/home/rrozas/Documentos/dotnetcoremvcgit/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/share/dotnet/sdk/NuGetFallbackFolder"
