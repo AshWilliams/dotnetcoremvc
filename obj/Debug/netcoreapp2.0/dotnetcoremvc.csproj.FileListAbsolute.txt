@@ -8,3 +8,13 @@
 /home/rrozas/Documentos/dotnetcoremvc/obj/Debug/netcoreapp2.0/dotnetcoremvc.AssemblyInfo.cs
 /home/rrozas/Documentos/dotnetcoremvc/obj/Debug/netcoreapp2.0/dotnetcoremvc.dll
 /home/rrozas/Documentos/dotnetcoremvc/obj/Debug/netcoreapp2.0/dotnetcoremvc.pdb
+/home/rrozas/Documentos/dotnetcoremvcgit/bin/Debug/netcoreapp2.0/dotnetcoremvc.deps.json
+/home/rrozas/Documentos/dotnetcoremvcgit/bin/Debug/netcoreapp2.0/dotnetcoremvc.runtimeconfig.json
+/home/rrozas/Documentos/dotnetcoremvcgit/bin/Debug/netcoreapp2.0/dotnetcoremvc.runtimeconfig.dev.json
+/home/rrozas/Documentos/dotnetcoremvcgit/bin/Debug/netcoreapp2.0/dotnetcoremvc.dll
+/home/rrozas/Documentos/dotnetcoremvcgit/bin/Debug/netcoreapp2.0/dotnetcoremvc.pdb
+/home/rrozas/Documentos/dotnetcoremvcgit/obj/Debug/netcoreapp2.0/dotnetcoremvc.csproj.CoreCompileInputs.cache
+/home/rrozas/Documentos/dotnetcoremvcgit/obj/Debug/netcoreapp2.0/dotnetcoremvc.AssemblyInfoInputs.cache
+/home/rrozas/Documentos/dotnetcoremvcgit/obj/Debug/netcoreapp2.0/dotnetcoremvc.AssemblyInfo.cs
+/home/rrozas/Documentos/dotnetcoremvcgit/obj/Debug/netcoreapp2.0/dotnetcoremvc.dll
+/home/rrozas/Documentos/dotnetcoremvcgit/obj/Debug/netcoreapp2.0/dotnetcoremvc.pdb
