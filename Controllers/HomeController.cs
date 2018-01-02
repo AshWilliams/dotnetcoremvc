@@ -10,10 +10,10 @@ namespace dotnetcoremvc.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             ViewData["Message"] = "Estamos en Index.";
-
+            await CosmosDB.Initialize();
             return View();
         }
 
