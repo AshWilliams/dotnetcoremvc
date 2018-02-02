@@ -21,11 +21,11 @@ namespace dotnetcoremvc.Models
             await cosmosClient.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(databaseName), new DocumentCollection{Id = collectionName});
         }
 
-        public static async Task<bool> CreateToDoTaskAsync(ToDoTasks theTask){
+        public static async Task<string> CreateToDoTaskAsync(ToDoTasks theTask){
             try{
                 await cosmosClient.ReadDocumentAsync(UriFactory.CreateDocumentUri(databaseName,collectionName,theTask.id));
                 //Found
-                return true;
+                return "found";
             }
             catch(DocumentClientException de){
                 if(de.StatusCode == HttpStatusCode.NotFound){
@@ -34,13 +34,20 @@ namespace dotnetcoremvc.Models
                 else{
                     throw;
                 }
-                return false;
+                return "created";
             }
         } 
 
-        public static async Task<bool> UpdateTodoTaskAsync(ToDoTasks theTask){
-            return true;
+        public static async Task<bool> ReplaceTodoTaskAsync(string id,ToDoTasks theTask){        
+            await cosmosClient.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseName,collectionName,id),theTask);
+            return true;                      
         }
+
+        public static async Task<bool> DeleteTodoTaskAsync(string id){        
+            await cosmosClient.DeleteDocumentAsync(UriFactory.CreateDocumentUri(databaseName,collectionName,id));
+            return true;                      
+        }
+
         public static IQueryable<ToDoTasks> SelectDocuments(){
             FeedOptions queryOptions = new FeedOptions{MaxItemCount = -1};
             //Linq way
