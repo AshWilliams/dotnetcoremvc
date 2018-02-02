@@ -21,11 +21,11 @@ namespace dotnetcoremvc.Models
             await cosmosClient.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(databaseName), new DocumentCollection{Id = collectionName});
         }
 
-        public static async Task<int> CreateToDoTaskAsync(ToDoTasks theTask){
+        public static async Task<bool> CreateToDoTaskAsync(ToDoTasks theTask){
             try{
                 await cosmosClient.ReadDocumentAsync(UriFactory.CreateDocumentUri(databaseName,collectionName,theTask.id));
                 //Found
-                return 0;
+                return true;
             }
             catch(DocumentClientException de){
                 if(de.StatusCode == HttpStatusCode.NotFound){
@@ -34,9 +34,13 @@ namespace dotnetcoremvc.Models
                 else{
                     throw;
                 }
-                return 1;
+                return false;
             }
         } 
+
+        public static async Task<bool> UpdateTodoTaskAsync(ToDoTasks theTask){
+            return true;
+        }
         public static IQueryable<ToDoTasks> SelectDocuments(){
             FeedOptions queryOptions = new FeedOptions{MaxItemCount = -1};
             //Linq way
