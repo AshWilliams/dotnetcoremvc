@@ -19,6 +19,7 @@ namespace dotnetcoremvc.Models
         public string limitDate {get;set;}
         [JsonProperty(PropertyName = "completada")]
         public bool completed {get;set;}
+        
     }
 
 }
