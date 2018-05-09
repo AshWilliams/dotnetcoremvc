@@ -1,6 +1,48 @@
 ﻿@{
     ViewData["Title"] = "Mi Proyecto .Net Core";
 }
+<link rel='stylesheet prefetch' href='//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.min.css'>
+<style class="cp-pen-styles">#app {
+  margin-top: 20px;
+  margin-left: 15px;
+  font-size: 16px;
+}
+.logo {
+  color: darkblue;
+}
+.add-block {
+  margin: 0;
+  margin-left: -15px;
+  padding: 15px;
+  background-color: lightgray;
+}
+label.task {
+  display: inline-block;
+}
+ul {
+  list-style: none;
+  display: block;
+  padding: 0;
+}
+ul li {
+  line-height: 1.7;
+  padding-bottom: 5px;
+  font-size: 1.2em;
+  vertical-align: top;
+}
+.ui.checkbox label,
+.ui.checkbox + label {
+  display: inline-block;
+}
+.completed {
+  opacity: 0.2;
+  text-decoration: line-through;
+}
+h4 {
+  display: inline-block;
+  margin-bottom: 30px;
+}
+</style>
 
 <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
     <ol class="carousel-indicators">
@@ -64,45 +106,125 @@
         <span class="sr-only">Next</span>
     </a>
 </div>
+<script src='//cdnjs.cloudflare.com/ajax/libs/vue/1.0.21/vue.js'></script>
+<script src='//cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+<script src='//cdn.jsdelivr.net/vuefire/1.0.0/vuefire.js''></script>
 
 <div class="row">
-    <div class="col-md-3">
-        <h2>Application uses </h2>
+    <div id="app">
+        <h1 class="blue ui header">Mi Lista de Tareas</h1> <h4 v-show="remaining > 0">Tienes {{ remaining }} tareas sin completark<span v-show="remaining > 1">s</span>. </h3> <button @@click.prevent="archiveTasks(todos)" class="tiny ui blue button" v-show="completed > 0">Archive Completed Tasks</button>
+        <div class="add-block">
+            <div class="ui action input">
+            <input type="text" placeholder="Add a task" v-model="newTodo" autofocus />
+            <button class="ui teal right labeled icon button" @@click.prevent="addTask">
+                <i class="plus icon"></i> Nueva Tarea
+            </button>
+            </div>
+        </div>
         <ul>
-            <li>Sample pages using ASP.NET Core MVC</li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=518004">Bower</a> for managing client-side libraries</li>
-            <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>How to</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398600">Add a Controller and View</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699316">Use logging to log a message.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699317">Add packages using NuGet.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699318">Add client packages using Bower.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Overview</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Run &amp; Deploy</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
+            <li v-for="todo in todos">
+            <div class="ui checkbox checked">
+                <input type="checkbox" @@click="completeTask(todo)" :checked="todo.completed" /> <label :class="todo">{{ todo.task }}</label>
+                <a class="tiny ui red image label" @@click.prevent="deleteTask(todo['.key'])"> Eliminar </a>
+            </div>
+            </li>
         </ul>
     </div>
 </div>
+    
+    
+    
+</div>
+
+<script >
+//We'll remove this later in order to use cosmosdb as our persistent storage instead of firebase
+  var baseURL = '//vue-todo.firebaseio.com/',
+  Tasks = new Firebase(baseURL + 'todos'),
+
+  app = new Vue({
+  
+  el: '#app',
+  
+  data: {
+    
+    newTodo: ''
+  },
+  
+  firebase: {
+    
+    todos: Tasks.limitToLast(25)
+  },
+  
+  computed: {
+    
+    remaining: function () {
+      
+      var uncompleted = 0;
+
+      for (var index in this.todos) {
+        
+        if(!this.todos[index].completed) {
+          uncompleted++;
+        }
+      }
+      return uncompleted; 
+    },
+    
+    completed: function () {
+      
+      var completed = 0;
+      
+      for (var index in this.todos) {
+        if(this.todos[index].completed) {
+          completed++;
+        }
+      }
+      return completed;
+    }
+  },
+  
+  methods: {
+    
+    addTask: function () {
+      
+      if (this.newTodo !== '') {
+        
+        Tasks.push({
+          task: this.newTodo,
+          completed: false
+        });
+        this.newTodo = '';
+      }
+    },
+    
+    completeTask: function(todo) {
+      
+      if(!todo.completed) {
+        todo.completed = true;
+      } else {
+        todo.completed = false;
+      }
+      Tasks.child(todo['.key']).update({ completed: todo.completed });
+    },
+    
+    deleteTask: function (key) {
+      
+      Tasks.child(key).remove();
+    },
+    
+    archiveTasks: function (todos) {
+      
+      for (var n = 0; n < todos.length; n++) {
+        
+        if(todos[n].completed) {
+
+          var key = todos[n]['.key'];
+  
+          Tasks.child(key).remove();
+        }
+      }
+    }
+  }
+});
+
+</script>
