@@ -112,7 +112,7 @@ h4 {
 
 <div class="row">
     <div id="app">
-        <h1 class="blue ui header">Mi Lista de Tareas</h1> <h4 v-show="remaining > 0">Tienes {{ remaining }} tareas sin completark<span v-show="remaining > 1">s</span>. </h3> <button @@click.prevent="archiveTasks(todos)" class="tiny ui blue button" v-show="completed > 0">Archive Completed Tasks</button>
+        <h1 class="blue ui header">Mi Lista de Tareas</h1> <h4 v-show="remaining > 0">Tienes {{ remaining }} tareas sin completar<span v-show="remaining > 1">s</span>. </h3> <button @@click.prevent="archiveTasks(todos)" class="tiny ui blue button" v-show="completed > 0">Archive Completed Tasks</button>
         <div class="add-block">
             <div class="ui action input">
             <input type="text" placeholder="Add a task" v-model="newTodo" autofocus />
