@@ -13,7 +13,7 @@ namespace dotnetcoremvc.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Message"] = "Estamos en Index.";
-            await CosmosDB.Initialize();
+            //await CosmosDB.Initialize();
             return View();
         }
 
