@@ -4,16 +4,22 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using dotnetcoremvc.Models;
 
 namespace dotnetcoremvc.Controllers
 {
     public class HomeController : Controller
     {
+
+        private static IConfiguration configuration;
+        public HomeController(IConfiguration iconfiguration){
+            configuration = iconfiguration;
+        }
         public async Task<IActionResult> Index()
         {
             ViewData["Message"] = "Estamos en Index.";
-            //await CosmosDB.Initialize();
+            await CosmosDB.Initialize(configuration);
             return View();
         }
 

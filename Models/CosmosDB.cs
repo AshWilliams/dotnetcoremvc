@@ -5,18 +5,23 @@ using Microsoft.Azure.Documents.Client;
 using System.Net;
 using System.Linq;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace dotnetcoremvc.Models
 {
     public static class CosmosDB
     {
-        private static readonly string endPointUrl = "https://micosmos.documents.azure.com:443/";
-        private static readonly string authKey = "OKKSsPamNJAlY3i5Fjm2juEKXl6Byb9RHxX4pIZS774qtQWmlrXTjyApmygctd2m4J5eZsLDm5LsoIXH2xZqcg==";
-        private static DocumentClient cosmosClient = new DocumentClient(new Uri(endPointUrl),authKey);
+
+        private static string endPointUrl = "";
+        private static string authKey = "";
+        private static DocumentClient cosmosClient; 
 
         private static string databaseName = "MyCosmosTodoDB";
         private static string collectionName = "MyCosmosToDoCollection";
-        public static async Task Initialize(){
+        public static async Task Initialize(IConfiguration iconfiguration){
+            endPointUrl = iconfiguration.GetSection("endPoint").Value;
+            authKey = iconfiguration.GetSection("authKey").Value;
+            cosmosClient = new DocumentClient(new Uri(endPointUrl),authKey);
             await cosmosClient.CreateDatabaseIfNotExistsAsync(new Database{Id = databaseName});
             await cosmosClient.CreateDocumentCollectionIfNotExistsAsync(UriFactory.CreateDatabaseUri(databaseName), new DocumentCollection{Id = collectionName});
         }
